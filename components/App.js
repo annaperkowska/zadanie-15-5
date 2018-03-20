@@ -11,13 +11,15 @@ App = React.createClass({
 		this.setState({
 			loading: true
 		});
-		this.getGif(searchingText, function(gif) {
-			this.setState({
-				loading: false,
-				gif: gif,
-				searchingText: searchingText
-			});
-		}.bind(this));
+		this.getGif(searchingText)
+			.then((gif) => {
+                this.setState({
+                    loading: false,
+                    gif: gif,
+                    searchingText: searchingText
+                });
+            })
+			.catch(console.log("błąd"));
 	},
 
 	getGif: function(searchingText) {
@@ -36,14 +38,15 @@ App = React.createClass({
 							sourceUrl: data.url
 						};
 						resolve(gif);
-
+						console.log(gif);
 					} else {
 						reject(console.log('Błąd!'));
 					} 
 				};
 				xhr.send();
-			},
-	
+			}
+		)
+	},
 	render: function() {
 
 		var styles = {
